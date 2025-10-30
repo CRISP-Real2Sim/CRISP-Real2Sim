@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+export NODE_PATH='/data3/zihanwa3/_Robotics/_geo/differentiable-blocksworld/viser_m/viser/client/.nodeenv/lib/node_modules'
+export NPM_CONFIG_PREFIX='/data3/zihanwa3/_Robotics/_geo/differentiable-blocksworld/viser_m/viser/client/.nodeenv'
+export npm_config_prefix='/data3/zihanwa3/_Robotics/_geo/differentiable-blocksworld/viser_m/viser/client/.nodeenv'
+exec '/data3/zihanwa3/_Robotics/_geo/differentiable-blocksworld/viser_m/viser/client/.nodeenv/bin/node' "$@"
