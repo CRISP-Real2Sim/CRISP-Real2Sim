@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta content="CRISP: Contact-guided Real2Sim from Monocular Video with Planar Scene Primitives" name="description"/>
+<meta content="Human Scene Interaction, 4D Human Motion Reconstruction, Physics-Based Simulation for Control" name="keywords"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>
+   CRISP: Contact-guided Real2Sim from Monocular Video with Planar Scene Primitives
+  </title>
+<link href="./static/images/logo.svg" rel="icon" type="image/svg"/>
+<link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet"/>
+<link href="./static/css/bulma.min.css" rel="stylesheet"/>
+<link href="./static/css/bulma-carousel.min.css" rel="stylesheet"/>
+<link href="./static/css/bulma-slider.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" rel="stylesheet"/>
+<link href="./static/css/index.css" rel="stylesheet"/>
+<script crossorigin="anonymous" src="https://kit.fontawesome.com/19914a84eb.js">
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+</script>
+<script src="./static/js/bulma-carousel.min.js">
+</script>
+<script src="./static/js/bulma-slider.min.js">
+</script>
+<script src="./static/js/index.js">
+</script>
+<script>
+   function updateMethodVideo() {
+        const task = document.getElementById("single-menu-task").value;
+        const robot = task.split("_")[0];
+
+        const video_ours = document.getElementById("result-video-ours");
+        const video_ppo = document.getElementById("result-video-ppo");
+        const video_hb = document.getElementById("result-video-hb");
+        const video_seq = document.getElementById("result-video-seq");
+        const video_mcp = document.getElementById("result-video-mcp");
+        const video_humanplus = document.getElementById("result-video-humanplus");
+        video_ours.getElementsByTagName("video")[0].src = "static/videos/comparison/" + task + "_ours.mp4";
+        video_ppo.getElementsByTagName("video")[0].src = "static/videos/comparison/" + task + "_ppo.mp4";
+        video_hb.getElementsByTagName("video")[0].src = "static/videos/comparison/" + task + "_hb.mp4";
+        video_seq.getElementsByTagName("video")[0].src = "static/videos/comparison/" + task + "_seq.mp4";
+        video_mcp.getElementsByTagName("video")[0].src = "static/videos/comparison/" + task + "_mcp.mp4";
+        video_humanplus.getElementsByTagName("video")[0].src = "static/videos/comparison/" + task + "_humanplus.mp4";
+
+        if (robot != "H1") {
+          document.getElementById("result-video-second-row").style.display = "none";
+          document.getElementById("result-video-third-row").style.display = "none";
+        } else {
+          document.getElementById("result-video-second-row").style.display = "";
+          document.getElementById("result-video-third-row").style.display = "";
+        }
+        if (task == "H1_FarReach") {
+          video_hb.style.display = "none";
+          video_seq.getElementsByTagName("video")[0].style.width = "45%";
+          const br = document.createElement("br");
+          document.getElementById("result-video-second-row").appendChild(br);
+        } else {
+          video_hb.style.display = "";
+          video_seq.getElementsByTagName("video")[0].style.width = "90%";
+        }
+    }
+
+    function onLoadFunction() {
+      updateMethodVideo();
+    }
+  </script>
+<style>
+   .scene-block {
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 40px;
+  }
+  .scene-block .columns {
+   flex-grow: 1;
+   align-items: center;
+  }
+  #interactive-demo .box > h3,
+  #policy-aware .box > h3,
+  #interactive-comparison .box > h3 {
+    display: none;
+  }
+  #interactive-demo-dataset-buttons .button,
+  #policy-aware-dataset-buttons .button,
+  #interactive-comparison-dataset-buttons .button {
+    font-size: 1.5rem;
+    padding: 0.35rem 1.25rem;
+  }
+  </style>
+</head>
+<body onload="onLoadFunction();">
+<section class="hero is-link is-fullheight video" style="overflow: hidden; position:relative;">
+<div class="hero-video" style="height: 100%; width: 177.77777778vh; min-width: 100%;min-height: 56.25vw;">
+<video autoplay="" loop="" muted="" playsinline="">
+<source src="./static/videos/demo_video.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="is-hidden-tablet" style="display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; background-color: black; left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);">
+<video autoplay="" loop="" muted="" playsinline="" style="width: 90%; height: auto; min-height: 100%;">
+<source src="./static/videos/1514_1758228692.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="overlay">
+</div>
+<div class="hero-body">
+<div class="container has-text-centered">
+<h1 class="title is-1 publication-title is-size-1-mobile" style="font-size: 12rem;">
+      CRISP
+     </h1>
+<h1 class="subtitle is-1 publication-title is-size-3-mobile" style="font-size: 4rem;">
+      Contact-guided Real2Sim from Monocular Video with Planar Scene Primitives
+     </h1>
+<div class="column has-text-centered is-hidden-tablet">
+<div class="publication-links">
+<span class="link-block">
+<a class="external-link button is-normal is-rounded is-dark paper-link" href="">
+<span class="icon">
+<img alt="PDF" src="./static/images/pdf.svg"/>
+</span>
+<span>
+          Paper
+         </span>
+</a>
+</span>
+<span class="link-block">
+<a class="external-link button is-normal is-rounded is-dark arxiv-link" href="">
+<span class="icon">
+<img alt="ArXiv" src="./static/images/arxiv.svg"/>
+</span>
+<span>
+          arXiv
+         </span>
+</a>
+</span>
+<span class="link-block">
+<a class="external-link button is-normal is-rounded is-dark" href="#interactive-demo">
+<span class="icon">
+<img alt="Youtube" src="./static/images/youtube.svg"/>
+</span>
+<span>
+          Video
+         </span>
+</a>
+</span>
+<span class="link-block">
+<a class="external-link button is-normal is-rounded is-dark" href="https://drive.google.com/file/d/1pC6OFmb0Qzk5vwUh2JOWFClbHdcDAPv8/view?usp=drive_link">
+<span class="icon">
+<i class="fas fa-image">
+</i>
+</span>
+<span>
+          Poster
+         </span>
+</a>
+</span>
+<span class="link-block">
+<a class="external-link button is-normal is-rounded is-dark github-link" href="">
+<span class="icon">
+<img alt="GitHub" src="./static/images/github-mark-white.svg"/>
+</span>
+<span>
+          Code
+         </span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="hero-foot">
+<nav class="tabs is-boxed is-fullwidth is-size-5">
+<ul>
+<li>
+<a href="#interactive-demo">
+        Interactive Demos
+       </a>
+</li>
+<li>
+<a href="#policy-aware">
+        Scene-Aware Policy
+       </a>
+</li>
+<li>
+<a href="#interactive-comparison">
+        Interactive Comparisons
+       </a>
+</li>
+</ul>
+</nav>
+</div>
+</section>
+<section class="section is-small" id="interactive-demo">
+<div class="container is-max-desktop">
+<div class="notification is-info has-text-centered has-text-weight-semibold is-size-4 is-size-5-mobile" style="margin-bottom: 1rem;">
+  Dynamic motion with physics powered by Viser — equivalent to IssacGym simulation output.
+</div>
+<h2 class="title is-1 has-text-centered is-size-3-mobile">
+     Interactive Demos
+    </h2>
+<p class="is-size-5 is-size-6-mobile has-text-centered" style="margin-bottom: 1.5rem;">
+     Drag interactive demo to see simulation result everywhere (when not shown please refresh page).
+    </p>
+<div class="box has-text-centered" style="margin-bottom: 2rem;">
+<div class="buttons is-centered is-flex-wrap-wrap" id="interactive-demo-dataset-buttons" style="gap: 0.5rem;">
+</div>
+<p class="is-size-5 is-size-6-mobile">
+      Page
+      <span id="interactive-demo-page-number">
+       1
+      </span>
+      /
+      <span id="interactive-demo-total-pages">
+       1
+      </span>
+</p>
+<div class="field is-grouped is-justify-content-center is-align-items-center" id="interactive-demo-page-controls" style="gap: 0.5rem;">
+<div class="control">
+<button class="button is-small is-light" id="interactive-demo-prev" type="button">
+<span class="icon is-small">
+<i class="fas fa-chevron-left">
+</i>
+</span>
+</button>
+</div>
+<div class="control">
+<input class="input is-small" id="interactive-demo-page-input" min="1" placeholder="Page #" type="number"/>
+</div>
+<div class="control">
+<div class="select is-small">
+<select id="interactive-demo-sequence-select">
+</select>
+</div>
+</div>
+<div class="control">
+<button class="button is-small is-light" id="interactive-demo-next" type="button">
+<span class="icon is-small">
+<i class="fas fa-chevron-right">
+</i>
+</span>
+</button>
+</div>
+</div>
+</div>
+<div class="columns is-multiline is-variable is-4" id="interactive-demo-grid">
+<div class="column is-full interactive-demo-card" data-card-index="0" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        56 outdoor stairs up down
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/56_outdoor_stairs_up_down.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_56_outdoor_stairs_up_down_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 56 outdoor stairs up down">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="1" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        58 outdoor parcours
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/58_outdoor_parcours.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_58_outdoor_parcours_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 58 outdoor parcours">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="2" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        36 outdoor long walk
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/36_outdoor_long_walk.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_36_outdoor_long_walk_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 36 outdoor long walk">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="3" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        09 outdoor walk
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/09_outdoor_walk.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_09_outdoor_walk_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 09 outdoor walk">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="4" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        20 outdoor walk
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/20_outdoor_walk.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_20_outdoor_walk_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 20 outdoor walk">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="5" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        24 outdoor long walk
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/24_outdoor_long_walk.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_24_outdoor_long_walk_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 24 outdoor long walk">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="6" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        19 indoor walk off mvs
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/19_indoor_walk_off_mvs.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_19_indoor_walk_off_mvs_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 19 indoor walk off mvs">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="7" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        27 indoor walk off mvs
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/27_indoor_walk_off_mvs.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_27_indoor_walk_off_mvs_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 27 indoor walk off mvs">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="8" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        28 outdoor walk lunges
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/28_outdoor_walk_lunges.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_28_outdoor_walk_lunges_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 28 outdoor walk lunges">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="9" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        35 indoor walk
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/35_indoor_walk.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_35_indoor_walk_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 35 indoor walk">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="10" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        40 indoor walk big circle
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/40_indoor_walk_big_circle.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_40_indoor_walk_big_circle_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 40 indoor walk big circle">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="11" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        48 outdoor walk downhill
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/48_outdoor_walk_downhill.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_48_outdoor_walk_downhill_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: 48 outdoor walk downhill">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="12" data-dataset="prox">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        MPH11
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/mph11.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_MPH11_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: MPH11">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="13" data-dataset="prox">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        MPH16
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/mph16.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_MPH16_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: MPH16">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="14" data-dataset="prox">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        MPH8
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/mph8.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_MPH8_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: MPH8">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="15" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        PKR 5
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_5.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/pkr_5.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: PKR 5">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="16" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        PKR c
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_c.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_pkr_c_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: PKR c">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="17" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        PKR GRN 2
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_grn_2.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/1104_pkr_grn_2_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: PKR GRN 2">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="18" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        PKR g
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_g.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_pkr_g_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: PKR g">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="19" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        PKR GRN 1
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_grn_1.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/1104_pkr_grn_1_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: PKR GRN 1">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="20" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        PKR GRN 8
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_grn_8.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/1104_pkr_grn_8_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: PKR GRN 8">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="21" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        Yoga Ball 1
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/yogaball_1.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/yogaball_1.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: Yoga Ball 1">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="22" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        PKR b
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_b.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/pkr_b.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: PKR b">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="23" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        Sandbag 3
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/sandbag_3.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/1118_sandbag_3_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: Sandbag 3">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-demo-card" data-card-index="24" data-dataset="wild">
+<div class="box">
+<h3 class="title is-5 is-size-6-mobile has-text-centered">
+        Soraiii
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/soraiii.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Interactive (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/soraiii.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Interactive demo: Soraiii">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section is-small" id="policy-aware">
+<div class="container is-max-desktop has-text-centered">
+<h2 class="title is-1 is-size-3-mobile">Scene-Aware Policy</h2>
+<p class="is-size-5 is-size-6-mobile" style="margin-bottom: 1rem;">
+      The detailed scene-aware policy comparisons now live on their own page for quicker sharing and faster loading.
+    </p>
+<a class="button is-link is-light" href="scene-aware-policy.html">
+      View the scene-aware policy gallery
+    </a>
+</div>
+</section>
+<section class="section is-small" id="interactive-comparison">
+<div class="container is-max-desktop">
+<h2 class="title is-1 has-text-centered is-size-3-mobile">
+     Interactive Comparisons
+    </h2>
+<p class="is-size-5 is-size-6-mobile has-text-centered" style="margin-bottom: 1.5rem;">
+     Inspect VideoMimic reconstructions next to CRISP and the original footage. Each card shows the input video alongside
+      both interactive viewers for direct comparison.
+    </p>
+<div class="box has-text-centered" style="margin-bottom: 2rem;">
+<div class="buttons is-centered is-flex-wrap-wrap" id="interactive-comparison-dataset-buttons" style="gap: 0.5rem;">
+</div>
+<p class="is-size-5 is-size-6-mobile">
+      Page
+      <span id="interactive-comparison-page-number">
+       1
+      </span>
+      /
+      <span id="interactive-comparison-total-pages">
+       1
+      </span>
+</p>
+<div class="field is-grouped is-justify-content-center is-align-items-center" id="interactive-comparison-page-controls" style="gap: 0.5rem;">
+<div class="control">
+<button class="button is-small is-light" id="interactive-comparison-prev" type="button">
+<span class="icon is-small">
+<i class="fas fa-chevron-left">
+</i>
+</span>
+</button>
+</div>
+<div class="control">
+<input class="input is-small" id="interactive-comparison-page-input" min="1" placeholder="Page #" type="number"/>
+</div>
+<div class="control">
+<div class="select is-small">
+<select id="interactive-comparison-sequence-select">
+</select>
+</div>
+</div>
+<div class="control">
+<button class="button is-small is-light" id="interactive-comparison-next" type="button">
+<span class="icon is-small">
+<i class="fas fa-chevron-right">
+</i>
+</span>
+</button>
+</div>
+</div>
+</div>
+<div class="columns is-multiline is-variable is-4" id="interactive-comparison-grid">
+<div class="column is-full interactive-comparison-card" data-card-index="0" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        19 indoor walk off mvs
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/19_indoor_walk_off_mvs.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_19_indoor_walk_off_mvs_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: 19 indoor walk off mvs">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_19_indoor_walk_off_mvs_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: 19 indoor walk off mvs">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="1" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        56 outdoor stairs up down
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/56_outdoor_stairs_up_down.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_56_outdoor_stairs_up_down_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: 56 outdoor stairs up down">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_56_outdoor_stairs_up_down_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: 56 outdoor stairs up down">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="2" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        40 indoor walk big circle
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/40_indoor_walk_big_circle.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_40_indoor_walk_big_circle_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: 40 indoor walk big circle">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_40_indoor_walk_big_circle_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: 40 indoor walk big circle">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="3" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        27 indoor walk off mvs
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/27_indoor_walk_off_mvs.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_27_indoor_walk_off_mvs_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: 27 indoor walk off mvs">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_27_indoor_walk_off_mvs_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: 27 indoor walk off mvs">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="4" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        35 indoor walk
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/35_indoor_walk.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_35_indoor_walk_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: 35 indoor walk">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_35_indoor_walk_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: 35 indoor walk">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="5" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        36 outdoor long walk
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/36_outdoor_long_walk.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_36_outdoor_long_walk_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: 36 outdoor long walk">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_36_outdoor_long_walk_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: 36 outdoor long walk">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="6" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        58 outdoor parcours
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/58_outdoor_parcours.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_58_outdoor_parcours_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: 58 outdoor parcours">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_58_outdoor_parcours_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: 58 outdoor parcours">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="7" data-dataset="emdb">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        48 outdoor walk downhill
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/48_outdoor_walk_downhill.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_48_outdoor_walk_downhill_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: 48 outdoor walk downhill">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_48_outdoor_walk_downhill_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: 48 outdoor walk downhill">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="8" data-dataset="prox">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        MPH11
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/mph11.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_MPH11_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: MPH11">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_MPH11_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: MPH11">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-comparison-card" data-card-index="9" data-dataset="prox">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        MPH16
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/mph16.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_MPH16_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: MPH16">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_MPH16_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: MPH16">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-comparison-card" data-card-index="10" data-dataset="prox">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        N3 Office
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/n3_office.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_N3Office_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: N3 Office">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_N3Office_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: N3 Office">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full interactive-comparison-card" data-card-index="11" data-dataset="wild">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        PKR c
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_c.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_pkr_c_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: PKR c">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_pkr_c_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: PKR c">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="12" data-dataset="wild">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        PKR b
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_b.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/pkr_b.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: PKR b">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_pkr_b_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: PKR b">
+</iframe>
+</div>
+</div>
+</div>
+</div><div class="column is-full interactive-comparison-card" data-card-index="13" data-dataset="wild">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        PKR 5
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/pkr_5.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          CRISP (ours)
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/pkr_5.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="CRISP interactive demo: PKR 5">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          VideoMimic
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/vmm_recodings/0920_pkr_5_videomimic.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="VideoMimic interactive demo: PKR 5">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section is-small" id="additional-viser">
+<div class="container is-max-desktop">
+<h2 class="title is-1 has-text-centered is-size-3-mobile">
+    </h2>
+<p class="is-size-5 is-size-6-mobile has-text-centered" style="margin-bottom: 1.5rem;">
+     We trained policy on our planar reconstruction and tested the policy on groundtruth geometry.
+    </p>
+<div class="columns is-multiline is-variable is-4">
+<div class="column is-full">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        MPH11 &amp; MPH16
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          MPH11 interactive
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings//MPH11.viser" style="width: 100%; height: 480px; border: none; border-radius: 10px; background-color: #000;" title="Viser playback: MPH11">
+</iframe>
+</div>
+<div class="column is-12-tablet is-half-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          MPH16 interactive
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings//MPH16.viser" style="width: 100%; height: 480px; border: none; border-radius: 10px; background-color: #000;" title="Viser playback: MPH16">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<script>
+  const DATASET_CONFIG = {
+   'interactive-demo': [
+    {
+     id: 'wild',
+     label: 'In-the-Wild'
+    },
+    {
+     id: 'emdb',
+     label: 'EMDB'
+    },
+    {
+     id: 'prox',
+     label: 'PROX'
+    }
+   ],
+   'policy-aware': [
+    {
+     id: 'policy',
+     label: 'Scenes'
+    }
+   ],
+   'interactive-comparison': [
+    {
+     id: 'wild',
+     label: 'In-the-Wild'
+    },
+    {
+     id: 'emdb',
+     label: 'EMDB'
+    },
+    {
+     id: 'prox',
+     label: 'PROX'
+    }
+   ]
+  };
+
+   function initInteractiveGallery(prefix, pageSize, onPageChange) {
+    const cards = Array.from(document.querySelectorAll(`.${prefix}-card`));
+    const pageNumber = document.getElementById(`${prefix}-page-number`);
+    const totalPagesLabel = document.getElementById(`${prefix}-total-pages`);
+    const buttonsContainer = document.getElementById(`${prefix}-dataset-buttons`);
+    const pageInput = document.getElementById(`${prefix}-page-input`);
+    const sequenceSelect = document.getElementById(`${prefix}-sequence-select`);
+    const prevButton = document.getElementById(`${prefix}-prev`);
+    const nextButton = document.getElementById(`${prefix}-next`);
+    if (!cards.length || !pageNumber || !totalPagesLabel) {
+     return;
+    }
+
+    const datasetLabels = {};
+    const datasetOrder = [];
+    (DATASET_CONFIG[prefix] || []).forEach((def) => {
+     datasetLabels[def.id] = def.label;
+     datasetOrder.push(def.id);
+    });
+    const datasetEntries = {};
+    cards.forEach((card) => {
+     const datasetKey = card.dataset.dataset || 'wild';
+     if (!datasetEntries[datasetKey]) {
+      datasetEntries[datasetKey] = [];
+      if (!datasetLabels[datasetKey]) {
+       datasetLabels[datasetKey] = datasetKey
+        .split('_')
+        .map((chunk) => chunk.charAt(0).toUpperCase() + chunk.slice(1))
+        .join(' ');
+      }
+      if (!datasetOrder.includes(datasetKey)) {
+       datasetOrder.push(datasetKey);
+      }
+     }
+     datasetEntries[datasetKey].push(card);
+    });
+
+    const availableDatasets = datasetOrder.filter(
+     (dataset) => datasetEntries[dataset] && datasetEntries[dataset].length
+    );
+    let activeDataset = availableDatasets[0] || Object.keys(datasetEntries)[0] || null;
+    if (!activeDataset) {
+     cards.forEach((card, idx) => {
+      card.style.display = idx < pageSize ? '' : 'none';
+     });
+     return;
+    }
+
+    const datasetPages = {};
+    Object.entries(datasetEntries).forEach(([dataset, datasetCards]) => {
+     if (!datasetCards.length) {
+      return;
+     }
+     datasetPages[dataset] = {
+      total: Math.max(1, Math.ceil(datasetCards.length / pageSize)),
+      current: 1
+     };
+    });
+
+    if (buttonsContainer) {
+     buttonsContainer.innerHTML = '';
+     availableDatasets.forEach((dataset) => {
+      const button = document.createElement('button');
+      button.className = 'button is-small is-light';
+      button.dataset.dataset = dataset;
+      button.addEventListener('click', () => {
+       if (activeDataset === dataset) {
+        return;
+       }
+       setActiveDataset(dataset);
+      });
+      buttonsContainer.appendChild(button);
+     });
+    }
+
+    const updateButtons = () => {
+     if (!buttonsContainer) {
+      return;
+     }
+     buttonsContainer.querySelectorAll('button').forEach((button) => {
+      const dataset = button.dataset.dataset;
+      const info = datasetPages[dataset] || {
+       current: 1,
+       total: 1
+      };
+      const label = datasetLabels[dataset] || dataset;
+      button.textContent = `${label} (${info.current}/${info.total})`;
+      button.classList.toggle('is-primary', dataset === activeDataset);
+     });
+    };
+
+    const buildSequenceOptions = () => {
+     if (!sequenceSelect && !pageInput) {
+      return;
+     }
+     const datasetCards = datasetEntries[activeDataset] || [];
+     if (sequenceSelect) {
+      sequenceSelect.innerHTML = '';
+      datasetCards.forEach((card, idx) => {
+       const option = document.createElement('option');
+       option.value = String(idx + 1);
+       const labelPrefix = datasetLabels[activeDataset] || activeDataset;
+       option.textContent = `${labelPrefix} ${idx + 1}`;
+       sequenceSelect.appendChild(option);
+      });
+     }
+     if (pageInput) {
+      if (datasetCards.length) {
+       pageInput.min = '1';
+       pageInput.max = String(datasetCards.length);
+      } else {
+       pageInput.removeAttribute('min');
+       pageInput.removeAttribute('max');
+      }
+     }
+    };
+
+    const updateNavButtons = () => {
+     if (!prevButton && !nextButton) {
+      return;
+     }
+     const datasetInfo = datasetPages[activeDataset];
+     const total = datasetInfo ? datasetInfo.total : 1;
+     const current = datasetInfo ? datasetInfo.current : 1;
+     if (prevButton) {
+      prevButton.disabled = current <= 1 || total <= 1;
+     }
+     if (nextButton) {
+      nextButton.disabled = current >= total || total <= 1;
+     }
+    };
+
+    const showPage = (page) => {
+     if (!activeDataset) {
+      return;
+     }
+     const datasetInfo = datasetPages[activeDataset];
+     const datasetCards = datasetEntries[activeDataset] || [];
+     const totalPages = datasetInfo ? datasetInfo.total : 1;
+     const safePage = Math.min(Math.max(page, 1), totalPages);
+     if (datasetInfo) {
+      datasetInfo.current = safePage;
+     }
+     cards.forEach((card) => {
+      card.style.display = 'none';
+     });
+     datasetCards.forEach((card, idx) => {
+      const cardPage = Math.floor(idx / pageSize) + 1;
+      if (cardPage === safePage) {
+       card.style.display = '';
+      }
+     });
+     pageNumber.textContent = safePage;
+     totalPagesLabel.textContent = totalPages;
+     if (sequenceSelect) {
+      sequenceSelect.value = String(safePage);
+     }
+     if (pageInput) {
+      pageInput.value = String(safePage);
+     }
+     updateButtons();
+     updateNavButtons();
+     if (typeof onPageChange === 'function') {
+      requestAnimationFrame(onPageChange);
+     }
+    };
+
+    const setActiveDataset = (dataset) => {
+     if (!datasetEntries[dataset] || !datasetEntries[dataset].length) {
+     return;
+     }
+     activeDataset = dataset;
+     const info = datasetPages[dataset];
+     if (info) {
+      buildSequenceOptions();
+      totalPagesLabel.textContent = info.total;
+      showPage(info.current);
+     }
+    };
+
+    const goToRelativePage = (delta) => {
+     if (!activeDataset) {
+      return;
+     }
+     const datasetInfo = datasetPages[activeDataset];
+     if (!datasetInfo) {
+      return;
+     }
+     showPage(datasetInfo.current + delta);
+    };
+
+    if (sequenceSelect) {
+     sequenceSelect.addEventListener('change', (event) => {
+      const value = Number(event.target.value);
+      if (!Number.isNaN(value)) {
+       showPage(value);
+      }
+     });
+    }
+    if (pageInput) {
+     const commitPageInput = () => {
+      const value = Number(pageInput.value);
+      if (!Number.isNaN(value)) {
+       showPage(value);
+      }
+     };
+     pageInput.addEventListener('change', commitPageInput);
+     pageInput.addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+       commitPageInput();
+      }
+     });
+    }
+
+    if (prevButton) {
+     prevButton.addEventListener('click', () => {
+      goToRelativePage(-1);
+     });
+    }
+    if (nextButton) {
+     nextButton.addEventListener('click', () => {
+      goToRelativePage(1);
+     });
+    }
+
+    setActiveDataset(activeDataset);
+   }
+
+  function syncDemoHeights() {
+    document.querySelectorAll('#interactive-demo .interactive-demo-card').forEach((card) => {
+      if (card.offsetParent === null) {
+        return;
+      }
+      const video = card.querySelector('video');
+      const iframe = card.querySelector('iframe');
+      if (!video || !iframe) {
+        return;
+      }
+      const height = video.getBoundingClientRect().height;
+      if (height > 0) {
+        iframe.style.height = `${height}px`;
+      }
+    });
+  }
+
+  function syncComparisonHeights() {
+    document.querySelectorAll('#interactive-comparison .interactive-comparison-card').forEach((card) => {
+      if (card.offsetParent === null) {
+        return;
+      }
+      const video = card.querySelector('video');
+      const frames = card.querySelectorAll('iframe');
+      if (!video || !frames.length) {
+        return;
+      }
+      const height = video.getBoundingClientRect().height;
+      if (height > 0) {
+        frames.forEach((frame) => {
+          frame.style.height = `${height}px`;
+        });
+      }
+    });
+  }
+
+  function syncPolicyHeights() {
+    document.querySelectorAll('#policy-aware .policy-aware-card').forEach((card) => {
+      if (card.offsetParent === null) {
+        return;
+      }
+      const reference = card.querySelector('video') || card.querySelector('.policy-placeholder');
+      const frames = card.querySelectorAll('iframe');
+      if (!reference || !frames.length) {
+        return;
+      }
+      const height = reference.getBoundingClientRect().height;
+      if (height > 0) {
+        frames.forEach((frame) => {
+          frame.style.height = `${height}px`;
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    initInteractiveGallery('interactive-demo', 1, syncDemoHeights);
+    initInteractiveGallery('policy-aware', 1, syncPolicyHeights);
+    initInteractiveGallery('interactive-comparison', 1, syncComparisonHeights);
+    const demoVideos = document.querySelectorAll('#interactive-demo video');
+    demoVideos.forEach((video) => {
+      video.addEventListener('loadedmetadata', () => {
+        syncDemoHeights();
+      });
+      video.addEventListener('loadeddata', () => {
+        syncDemoHeights();
+      });
+    });
+    const demoIframes = document.querySelectorAll('#interactive-demo iframe');
+    demoIframes.forEach((frame) => {
+      frame.addEventListener('load', () => {
+        syncDemoHeights();
+      });
+    });
+    const policyVideos = document.querySelectorAll('#policy-aware video');
+    policyVideos.forEach((video) => {
+      video.addEventListener('loadedmetadata', () => {
+        syncPolicyHeights();
+      });
+      video.addEventListener('loadeddata', () => {
+        syncPolicyHeights();
+      });
+    });
+    const policyIframes = document.querySelectorAll('#policy-aware iframe');
+    policyIframes.forEach((frame) => {
+      frame.addEventListener('load', () => {
+        syncPolicyHeights();
+      });
+    });
+    const comparisonIframes = document.querySelectorAll('#interactive-comparison iframe');
+    comparisonIframes.forEach((frame) => {
+      frame.addEventListener('load', () => {
+        syncComparisonHeights();
+      });
+    });
+    const comparisonVideos = document.querySelectorAll('#interactive-comparison video');
+    comparisonVideos.forEach((video) => {
+      video.addEventListener('loadedmetadata', () => {
+        syncComparisonHeights();
+      });
+      video.addEventListener('loadeddata', () => {
+        syncComparisonHeights();
+      });
+    });
+    window.addEventListener('resize', () => {
+      syncDemoHeights();
+      syncPolicyHeights();
+      syncComparisonHeights();
+    });
+    syncDemoHeights();
+    syncPolicyHeights();
+    syncComparisonHeights();
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <title>Scene-Aware Policy - CRISP</title>
+  <link rel='icon' type='image/svg' href='./static/images/logo.svg'>
+  <link rel='stylesheet' href='./static/css/bulma.min.css'>
+  <link rel='stylesheet' href='./static/css/index.css'>
+  <script src="https://kit.fontawesome.com/19914a84eb.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <section class='section'>
+    <div class='container has-text-centered'>
+      <h1 class='title is-2'>Scene-Aware Policy</h1>
+      <p class='is-size-5'>This standalone page mirrors the scene-aware policy comparisons from the main site.</p>
+      <p class='is-size-6'><a href='index.html'>Back to main page</a></p>
+    </div>
+  </section>
+  <section class="section is-small" id="policy-aware">
+<div class="container is-max-desktop">
+<h2 class="title is-1 has-text-centered is-size-3-mobile">
+     Scene-Aware Policy
+    </h2>
+<p class="is-size-5 is-size-6-mobile has-text-centered" style="margin-bottom: 0.75rem;">
+     The scene-aware policy can exploit environment cues for even better adaptation, yet CRISP already benefits from accurate
+      reference motion and geometry, so it remains strong even without those cues. These comparisons show how both behave inside
+      the same simulation.
+    </p>
+<p class="is-size-5 is-size-6-mobile has-text-centered" style="margin-bottom: 1.5rem;">
+     The policy network receives extra scene cues sampled as 
+      <span style="color: #e74c3c; font-weight: 600;">red points</span> so it can react to obstacles and affordances
+      directly inside the simulation.
+    </p>
+<div class="box has-text-centered" style="margin-bottom: 2rem;">
+<div class="buttons is-centered is-flex-wrap-wrap" id="policy-aware-dataset-buttons" style="gap: 0.5rem;">
+</div>
+<p class="is-size-5 is-size-6-mobile">
+      Page
+      <span id="policy-aware-page-number">
+       1
+      </span>
+      /
+      <span id="policy-aware-total-pages">
+       1
+      </span>
+</p>
+<div class="field is-grouped is-justify-content-center is-align-items-center" id="policy-aware-page-controls" style="gap: 0.5rem;">
+<div class="control">
+<button class="button is-small is-light" id="policy-aware-prev" type="button">
+<span class="icon is-small">
+<i class="fas fa-chevron-left">
+</i>
+</span>
+</button>
+</div>
+<div class="control">
+<input class="input is-small" id="policy-aware-page-input" min="1" placeholder="Page #" type="number"/>
+</div>
+<div class="control">
+<div class="select is-small">
+<select id="policy-aware-sequence-select">
+</select>
+</div>
+</div>
+<div class="control">
+<button class="button is-small is-light" id="policy-aware-next" type="button">
+<span class="icon is-small">
+<i class="fas fa-chevron-right">
+</i>
+</span>
+</button>
+</div>
+</div>
+</div>
+<div class="columns is-multiline is-variable is-4" id="policy-aware-grid">
+<div class="column is-full policy-aware-card" data-card-index="0" data-dataset="policy">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        27 indoor walk off mvs
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/27_indoor_walk_off_mvs.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Standard CRISP
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_27_indoor_walk_off_mvs_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Standard CRISP interactive demo: 27 indoor walk off mvs">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #e67e22;">
+          Scene-aware Policy
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/post_asset_ours_11160910/27_indoor_walk_off_mvs/27_indoor_walk_off_mvs.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Scene-aware Policy demo: 27 indoor walk off mvs">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full policy-aware-card" data-card-index="1" data-dataset="policy">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        56 outdoor stairs up down
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/56_outdoor_stairs_up_down.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Standard CRISP
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_56_outdoor_stairs_up_down_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Standard CRISP interactive demo: 56 outdoor stairs up down">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #e67e22;">
+          Scene-aware Policy
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/post_asset_ours_11160910/56_outdoor_stairs_up_down/56_outdoor_stairs_up_down.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Scene-aware Policy demo: 56 outdoor stairs up down">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full policy-aware-card" data-card-index="2" data-dataset="policy">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        61 outdoor sit lie walk
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+         Input Video
+        </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/61_outdoor_sit_lie_walk.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Standard CRISP
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_61_outdoor_sit_lie_walk_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Standard CRISP interactive demo: 61 outdoor sit lie walk">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #e67e22;">
+          Scene-aware Policy
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/post_asset_ours_11160910/61_outdoor_sit_lie_walk/61_outdoor_sit_lie_walk.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Scene-aware Policy demo: 61 outdoor sit lie walk">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full policy-aware-card" data-card-index="3" data-dataset="policy">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        77 outdoor stairs up
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+         Input Video
+        </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/77_outdoor_stairs_up.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Standard CRISP
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0910_77_outdoor_stairs_up_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Standard CRISP interactive demo: 77 outdoor stairs up">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #e67e22;">
+          Scene-aware Policy
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/post_asset_ours_11160910/77_outdoor_stairs_up/77_outdoor_stairs_up.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Scene-aware Policy demo: 77 outdoor stairs up">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full policy-aware-card" data-card-index="4" data-dataset="policy">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        MPH11
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/mph11.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Standard CRISP
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_MPH11_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Standard CRISP interactive demo: MPH11">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #e67e22;">
+          Scene-aware Policy
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/post_asset_ours_11160910/MPH11/MPH11.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Scene-aware Policy demo: MPH11">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full policy-aware-card" data-card-index="5" data-dataset="policy">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        MPH16
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/mph16.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+</video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Standard CRISP
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/0921_MPH16_ours.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Standard CRISP interactive demo: MPH16">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #e67e22;">
+          Scene-aware Policy
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/post_asset_ours_11160910/MPH16/MPH16.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Scene-aware Policy demo: MPH16">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+<div class="column is-full policy-aware-card" data-card-index="6" data-dataset="policy">
+<div class="box">
+<h3 class="title is-4 is-size-5-mobile has-text-centered">
+        Werkraum
+       </h3>
+<div class="columns is-variable is-3 is-multiline">
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6">
+          Input Video
+         </p>
+<video autoplay="" controls="" loop="" muted="" playsinline="" src="static/videos/video_results/interactive_comparisons/Werkraum.mp4" style="width: 100%; border-radius: 10px; background-color: #000;">
+          </video>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #1abc9c;">
+          Standard CRISP
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/Werkraum.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Standard CRISP interactive demo: Werkraum">
+</iframe>
+</div>
+<div class="column is-12-tablet is-one-third-desktop">
+<p class="has-text-centered has-text-weight-semibold is-size-6" style="color: #e67e22;">
+          Scene-aware Policy
+         </p>
+<iframe allowfullscreen="" loading="lazy" src="https://crisp-real-to-sim.github.io/ViserHolder/viser-client/?playbackPath=https://crisp-real-to-sim.github.io/ViserHolder/recordings/post_asset_ours_11160910/Werkraum/Werkraum.viser" style="width: 100%; border: none; border-radius: 10px; background-color: #000;" title="Scene-aware Policy demo: Werkraum">
+</iframe>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+  <script>
+  const DATASET_CONFIG = {'policy-aware': [{id: 'policy', label: 'Scenes'}]};
+function initInteractiveGallery(prefix, pageSize, onPageChange) {
+    const cards = Array.from(document.querySelectorAll(`.${prefix}-card`));
+    const pageNumber = document.getElementById(`${prefix}-page-number`);
+    const totalPagesLabel = document.getElementById(`${prefix}-total-pages`);
+    const buttonsContainer = document.getElementById(`${prefix}-dataset-buttons`);
+    const pageInput = document.getElementById(`${prefix}-page-input`);
+    const sequenceSelect = document.getElementById(`${prefix}-sequence-select`);
+    const prevButton = document.getElementById(`${prefix}-prev`);
+    const nextButton = document.getElementById(`${prefix}-next`);
+    if (!cards.length || !pageNumber || !totalPagesLabel) {
+     return;
+    }
+
+    const datasetLabels = {};
+    const datasetOrder = [];
+    (DATASET_CONFIG[prefix] || []).forEach((def) => {
+     datasetLabels[def.id] = def.label;
+     datasetOrder.push(def.id);
+    });
+    const datasetEntries = {};
+    cards.forEach((card) => {
+     const datasetKey = card.dataset.dataset || 'wild';
+     if (!datasetEntries[datasetKey]) {
+      datasetEntries[datasetKey] = [];
+      if (!datasetLabels[datasetKey]) {
+       datasetLabels[datasetKey] = datasetKey
+        .split('_')
+        .map((chunk) => chunk.charAt(0).toUpperCase() + chunk.slice(1))
+        .join(' ');
+      }
+      if (!datasetOrder.includes(datasetKey)) {
+       datasetOrder.push(datasetKey);
+      }
+     }
+     datasetEntries[datasetKey].push(card);
+    });
+
+    const availableDatasets = datasetOrder.filter(
+     (dataset) => datasetEntries[dataset] && datasetEntries[dataset].length
+    );
+    let activeDataset = availableDatasets[0] || Object.keys(datasetEntries)[0] || null;
+    if (!activeDataset) {
+     cards.forEach((card, idx) => {
+      card.style.display = idx < pageSize ? '' : 'none';
+     });
+     return;
+    }
+
+    const datasetPages = {};
+    Object.entries(datasetEntries).forEach(([dataset, datasetCards]) => {
+     if (!datasetCards.length) {
+      return;
+     }
+     datasetPages[dataset] = {
+      total: Math.max(1, Math.ceil(datasetCards.length / pageSize)),
+      current: 1
+     };
+    });
+
+    if (buttonsContainer) {
+     buttonsContainer.innerHTML = '';
+     availableDatasets.forEach((dataset) => {
+      const button = document.createElement('button');
+      button.className = 'button is-small is-light';
+      button.dataset.dataset = dataset;
+      button.addEventListener('click', () => {
+       if (activeDataset === dataset) {
+        return;
+       }
+       setActiveDataset(dataset);
+      });
+      buttonsContainer.appendChild(button);
+     });
+    }
+
+    const updateButtons = () => {
+     if (!buttonsContainer) {
+      return;
+     }
+     buttonsContainer.querySelectorAll('button').forEach((button) => {
+      const dataset = button.dataset.dataset;
+      const info = datasetPages[dataset] || {
+       current: 1,
+       total: 1
+      };
+      const label = datasetLabels[dataset] || dataset;
+      button.textContent = `${label} (${info.current}/${info.total})`;
+      button.classList.toggle('is-primary', dataset === activeDataset);
+     });
+    };
+
+    const buildSequenceOptions = () => {
+     if (!sequenceSelect && !pageInput) {
+      return;
+     }
+     const datasetCards = datasetEntries[activeDataset] || [];
+     if (sequenceSelect) {
+      sequenceSelect.innerHTML = '';
+      datasetCards.forEach((card, idx) => {
+       const option = document.createElement('option');
+       option.value = String(idx + 1);
+       const labelPrefix = datasetLabels[activeDataset] || activeDataset;
+       option.textContent = `${labelPrefix} ${idx + 1}`;
+       sequenceSelect.appendChild(option);
+      });
+     }
+     if (pageInput) {
+      if (datasetCards.length) {
+       pageInput.min = '1';
+       pageInput.max = String(datasetCards.length);
+      } else {
+       pageInput.removeAttribute('min');
+       pageInput.removeAttribute('max');
+      }
+     }
+    };
+
+    const updateNavButtons = () => {
+     if (!prevButton && !nextButton) {
+      return;
+     }
+     const datasetInfo = datasetPages[activeDataset];
+     const total = datasetInfo ? datasetInfo.total : 1;
+     const current = datasetInfo ? datasetInfo.current : 1;
+     if (prevButton) {
+      prevButton.disabled = current <= 1 || total <= 1;
+     }
+     if (nextButton) {
+      nextButton.disabled = current >= total || total <= 1;
+     }
+    };
+
+    const showPage = (page) => {
+     if (!activeDataset) {
+      return;
+     }
+     const datasetInfo = datasetPages[activeDataset];
+     const datasetCards = datasetEntries[activeDataset] || [];
+     const totalPages = datasetInfo ? datasetInfo.total : 1;
+     const safePage = Math.min(Math.max(page, 1), totalPages);
+     if (datasetInfo) {
+      datasetInfo.current = safePage;
+     }
+     cards.forEach((card) => {
+      card.style.display = 'none';
+     });
+     datasetCards.forEach((card, idx) => {
+      const cardPage = Math.floor(idx / pageSize) + 1;
+      if (cardPage === safePage) {
+       card.style.display = '';
+      }
+     });
+     pageNumber.textContent = safePage;
+     totalPagesLabel.textContent = totalPages;
+     if (sequenceSelect) {
+      sequenceSelect.value = String(safePage);
+     }
+     if (pageInput) {
+      pageInput.value = String(safePage);
+     }
+     updateButtons();
+     updateNavButtons();
+     if (typeof onPageChange === 'function') {
+      requestAnimationFrame(onPageChange);
+     }
+    };
+
+    const setActiveDataset = (dataset) => {
+     if (!datasetEntries[dataset] || !datasetEntries[dataset].length) {
+     return;
+     }
+     activeDataset = dataset;
+     const info = datasetPages[dataset];
+     if (info) {
+      buildSequenceOptions();
+      totalPagesLabel.textContent = info.total;
+      showPage(info.current);
+     }
+    };
+
+    const goToRelativePage = (delta) => {
+     if (!activeDataset) {
+      return;
+     }
+     const datasetInfo = datasetPages[activeDataset];
+     if (!datasetInfo) {
+      return;
+     }
+     showPage(datasetInfo.current + delta);
+    };
+
+    if (sequenceSelect) {
+     sequenceSelect.addEventListener('change', (event) => {
+      const value = Number(event.target.value);
+      if (!Number.isNaN(value)) {
+       showPage(value);
+      }
+     });
+    }
+    if (pageInput) {
+     const commitPageInput = () => {
+      const value = Number(pageInput.value);
+      if (!Number.isNaN(value)) {
+       showPage(value);
+      }
+     };
+     pageInput.addEventListener('change', commitPageInput);
+     pageInput.addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+       commitPageInput();
+      }
+     });
+    }
+
+    if (prevButton) {
+     prevButton.addEventListener('click', () => {
+      goToRelativePage(-1);
+     });
+    }
+    if (nextButton) {
+     nextButton.addEventListener('click', () => {
+      goToRelativePage(1);
+     });
+    }
+
+    setActiveDataset(activeDataset);
+   }
+
+  function syncPolicyHeights() {
+    document.querySelectorAll('#policy-aware .policy-aware-card').forEach((card) => {
+      if (card.offsetParent === null) {
+        return;
+      }
+      const reference = card.querySelector('video') || card.querySelector('.policy-placeholder');
+      const frames = card.querySelectorAll('iframe');
+      if (!reference || !frames.length) {
+        return;
+      }
+      const height = reference.getBoundingClientRect().height;
+      if (height > 0) {
+        frames.forEach((frame) => {
+          frame.style.height = `${height}px`;
+        });
+      }
+    });
+  }
+
+document.addEventListener('DOMContentLoaded', function () {
+    initInteractiveGallery('policy-aware', 1, syncPolicyHeights);
+    const policyVideos = document.querySelectorAll('#policy-aware video');
+    policyVideos.forEach((video) => {
+      video.addEventListener('loadedmetadata', () => {
+        syncPolicyHeights();
+      });
+      video.addEventListener('loadeddata', () => {
+        syncPolicyHeights();
+      });
+    });
+    const policyIframes = document.querySelectorAll('#policy-aware iframe');
+    policyIframes.forEach((frame) => {
+      frame.addEventListener('load', () => {
+        syncPolicyHeights();
+      });
+    });
+    window.addEventListener('resize', () => {
+      syncPolicyHeights();
+    });
+    syncPolicyHeights();
+  });
+
+  </script>
+</body>
+</html>
