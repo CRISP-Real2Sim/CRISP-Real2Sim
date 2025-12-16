@@ -180,3 +180,71 @@ transition: opacity 1.0s;
   z-index: 2; /* Ensure text is above the overlay */
   transition: opacity 1.0s;
 }
+
+.hero-top-right-links {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.6rem;
+  z-index: 3;
+}
+
+.hero-top-right-links .top-right-icon {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.hero-top-right-links .top-right-icon:hover {
+  transform: translateY(-2px);
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.hero-top-right-links .top-right-icon img {
+  max-width: 70%;
+  max-height: 70%;
+}
+
+.hero-top-right-links .top-right-icon--crisp img {
+  max-width: 80%;
+  max-height: 80%;
+}
+
+.hero-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.hero-logo-icon img {
+  height: 1em;
+  width: auto;
+}
+
+.hero-logo-icon {
+  display: inline-flex;
+  align-items: center;
+  margin-left: -2rem;
+}
+
+.hero-logo-text {
+  line-height: 1;
+}
+
+#interactive-demo h2.title,
+#interactive-comparison h2.title,
+#policy-aware h2.title {
+  color: #000;
+}
+
+.hero.video .hero-video {
+  transform: translateY(-2.7%);
+}
