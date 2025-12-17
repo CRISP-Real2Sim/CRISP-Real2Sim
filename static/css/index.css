@@ -2,21 +2,19 @@ body {
   font-family: 'Noto Sans', sans-serif;
 }
 
-
 .footer .icon-link {
-    font-size: 25px;
-    color: #000;
+  font-size: 25px;
+  color: #000;
 }
 
 .link-block a {
-    margin-top: 5px;
-    margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .dnerf {
   font-variant: small-caps;
 }
-
 
 .teaser .hero-body {
   padding-top: 0;
@@ -27,13 +25,41 @@ body {
   font-family: 'Google Sans', sans-serif;
 }
 
-
+/* Publication */
 .publication-title {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+  color: #555;
+  width: fit-content;
+  font-weight: bold;
+}
+
+.publication-awards {
+  color: #ff3860;
+  width: fit-content;
+  font-weight: bolder;
+}
+
+.publication-authors a {
+  color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+  text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
 }
 
 .publication-banner {
-  max-height: parent;
-
+  max-height: 100%;
 }
 
 .publication-banner video {
@@ -41,75 +67,27 @@ body {
   left: auto;
   top: auto;
   transform: none;
-  object-fit: fit;
-}
-
-.publication-header .hero-body {
-}
-
-.publication-title {
-    font-family: 'Google Sans', sans-serif;
-}
-
-.publication-authors {
-    font-family: 'Google Sans', sans-serif;
-}
-
-.publication-venue {
-    color: #555;
-    width: fit-content;
-    font-weight: bold;
-}
-
-.publication-awards {
-    color: #ff3860;
-    width: fit-content;
-    font-weight: bolder;
-}
-
-.publication-authors {
-}
-
-.publication-authors a {
-   color: hsl(204, 86%, 53%) !important;
-}
-
-.publication-authors a:hover {
-    text-decoration: underline;
-}
-
-.author-block {
-  display: inline-block;
-}
-
-.publication-banner img {
-}
-
-.publication-authors {
-  /*color: #4286f4;*/
+  object-fit: contain; /* 合法值：contain/cover/fill/none/scale-down */
 }
 
 .publication-video {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%;
-
-    overflow: hidden;
-    border-radius: 10px !important;
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  border-radius: 10px !important;
 }
 
 .publication-video iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.publication-body img {
-}
-
+/* Carousel */
 .results-carousel {
   overflow: hidden;
 }
@@ -127,7 +105,7 @@ body {
   margin: 0;
 }
 
-
+/* Interpolation panel */
 .interpolation-panel {
   background: #f5f5f5;
   border-radius: 10px;
@@ -138,13 +116,6 @@ body {
   border-radius: 5px;
 }
 
-.interpolation-video-column {
-}
-
-.interpolation-panel .slider {
-  margin: 0 !important;
-}
-
 .interpolation-panel .slider {
   margin: 0 !important;
 }
@@ -152,35 +123,37 @@ body {
 #interpolation-image-wrapper {
   width: 100%;
 }
+
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
 
-
-.has-bg-img { 
-  background: url('/static/images/toss.jpeg')center center;
-   background-size:cover; }
-
-
-
-.overlay {
-position: absolute;
-top: 0;
-right: 0;
-bottom: 0;
-left: 0;
-background-color: rgba(0, 0, 0, 0.4); /* 40% opacity black */
-z-index: 1; /* Make sure it's behind the text */
-transition: opacity 1.0s;
+/* Hero background image (关键：相对路径 + 空格) */
+.has-bg-img {
+  background: url("static/images/toss.jpeg") center center;
+  background-size: cover;
 }
-  
-.hero-body,
-.hero-head,
-.hero-foot {
-  z-index: 2; /* Ensure text is above the overlay */
+
+/* Overlay and z-index layers */
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
   transition: opacity 1.0s;
 }
 
+.hero-body,
+.hero-head,
+.hero-foot {
+  z-index: 2;
+  transition: opacity 1.0s;
+}
+
+/* Top-right links */
 .hero-top-right-links {
   position: absolute;
   top: 1.5rem;
@@ -217,16 +190,12 @@ transition: opacity 1.0s;
   max-height: 80%;
 }
 
+/* Logo */
 .hero-logo {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1.25rem;
-}
-
-.hero-logo-icon img {
-  height: 1em;
-  width: auto;
 }
 
 .hero-logo-icon {
@@ -235,16 +204,23 @@ transition: opacity 1.0s;
   margin-left: -2rem;
 }
 
+.hero-logo-icon img {
+  height: 1em;
+  width: auto;
+}
+
 .hero-logo-text {
   line-height: 1;
 }
 
+/* Section titles */
 #interactive-demo h2.title,
 #interactive-comparison h2.title,
 #policy-aware h2.title {
   color: #000;
 }
 
+/* Video hero tweak */
 .hero.video .hero-video {
   transform: translateY(-2.7%);
 }
