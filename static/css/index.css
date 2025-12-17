@@ -198,6 +198,34 @@ body {
   gap: 1.25rem;
 }
 
+.method-figures {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 0;
+  margin-top: 1.5rem;
+}
+
+.method-figure {
+  flex: 1 1 100%;
+  margin: 0;
+}
+
+.method-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.method-caption {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  padding: 0.75rem 0.5rem 0;
+  text-align: center;
+}
+
+
 .hero-logo-icon {
   display: inline-flex;
   align-items: center;
