@@ -190,6 +190,42 @@ body {
   max-height: 80%;
 }
 
+.project-resource-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3rem;
+  margin: 0 auto 2.75rem;
+  padding: 0 1rem;
+}
+
+.project-resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1.65rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.15);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #111;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-resource-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.2);
+}
+
+.project-resource-link img {
+  width: 2rem;
+  height: 2rem;
+}
+
 /* Logo */
 .hero-logo {
   display: flex;
