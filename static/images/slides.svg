@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="slides-title">
+  <title id="slides-title">Slides</title>
+  <path fill="#f4b400" d="M8 3h34l14 14v44H8z"/>
+  <path fill="#f8d775" d="M42 3v14h14z"/>
+  <path fill="#ffffff" d="M16 25h32v24H16z"/>
+  <path fill="#f4b400" d="M21 31h22v12H21z"/>
+</svg>
