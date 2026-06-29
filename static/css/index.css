@@ -2,6 +2,10 @@ body {
   font-family: 'Noto Sans', sans-serif;
 }
 
+:root {
+  --project-meta-width: 100%;
+}
+
 .footer .icon-link {
   font-size: 25px;
   color: #000;
@@ -10,6 +14,12 @@ body {
 .link-block a {
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+.publication-links .icon .iclr-logo {
+  width: 2.75rem;
+  height: auto;
+  max-width: none;
 }
 
 .dnerf {
@@ -190,20 +200,212 @@ body {
   max-height: 80%;
 }
 
+.project-authors {
+  width: var(--project-meta-width);
+  margin: 0 auto 1.15rem;
+  padding: 0 1rem;
+  text-align: center;
+  color: #1f2937;
+}
+
+.project-author-list {
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.project-author-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+  gap: 1rem 3.5rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.project-author-row:first-child {
+  max-width: 100%;
+}
+
+.project-author-row:nth-child(2) {
+  max-width: 100%;
+}
+
+.project-author-row:first-child > :nth-child(1) {
+  grid-column: 1;
+}
+
+.project-author-row:first-child > :nth-child(2) {
+  grid-column: 3;
+}
+
+.project-author-row:first-child > :nth-child(3) {
+  grid-column: 5;
+}
+
+.project-author-row:first-child > :nth-child(4) {
+  grid-column: 7;
+}
+
+.project-author-row:nth-child(2) > :nth-child(1) {
+  grid-column: 2;
+}
+
+.project-author-row:nth-child(2) > :nth-child(2) {
+  grid-column: 4;
+}
+
+.project-author-row:nth-child(2) > :nth-child(3) {
+  grid-column: 6;
+}
+
+.project-author-row a {
+  color: #1f2937;
+  text-decoration: none;
+  white-space: nowrap;
+  justify-self: center;
+}
+
+.project-author-row a:hover {
+  color: hsl(204, 86%, 53%);
+  text-decoration: underline;
+}
+
+.project-equal-contribution {
+  margin-top: 0.2rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #5f6673;
+}
+
+.project-affiliation {
+  margin-top: 0.45rem;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: #c41230;
+}
+
+.project-venue {
+  margin: 0 auto 1rem;
+  font-family: 'Google Sans', sans-serif;
+  font-size: clamp(1.4rem, 2.1vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: #111827;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+  .project-author-list {
+    font-size: 1.05rem;
+  }
+
+  .project-author-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+  }
+
+  .project-venue {
+    font-size: clamp(1rem, 4.2vw, 1.45rem);
+  }
+
+  .project-author-row:first-child > :nth-child(1),
+  .project-author-row:first-child > :nth-child(2),
+  .project-author-row:first-child > :nth-child(3),
+  .project-author-row:first-child > :nth-child(4),
+  .project-author-row:nth-child(2) > :nth-child(1),
+  .project-author-row:nth-child(2) > :nth-child(2),
+  .project-author-row:nth-child(2) > :nth-child(3) {
+    grid-column: auto;
+  }
+
+}
+
 .project-resource-links {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 3rem;
-  margin: 0 auto 2.75rem;
+  gap: 1.15rem;
+  width: var(--project-meta-width);
+  margin: 0 auto 2.35rem;
   padding: 0 1rem;
+}
+
+.project-resource-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1.15rem 2rem;
+  width: 100%;
+}
+
+.project-resource-row:first-child > :nth-child(1) {
+  grid-column: 1;
+}
+
+.project-resource-row:first-child > :nth-child(2) {
+  grid-column: 3;
+}
+
+.project-resource-row:first-child > :nth-child(3) {
+  grid-column: 5;
+}
+
+.project-resource-row:first-child > :nth-child(4) {
+  grid-column: 7;
+}
+
+.project-resource-row:nth-child(2) > :nth-child(1) {
+  grid-column: 2;
+}
+
+.project-resource-row:nth-child(2) > :nth-child(2) {
+  grid-column: 4;
+}
+
+.project-resource-row:nth-child(2) > :nth-child(3) {
+  grid-column: 6;
+}
+
+@media screen and (max-width: 768px) {
+  .project-resource-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .project-resource-row:first-child > :nth-child(1),
+  .project-resource-row:first-child > :nth-child(2),
+  .project-resource-row:first-child > :nth-child(3),
+  .project-resource-row:first-child > :nth-child(4),
+  .project-resource-row:nth-child(2) > :nth-child(1),
+  .project-resource-row:nth-child(2) > :nth-child(2),
+  .project-resource-row:nth-child(2) > :nth-child(3) {
+    grid-column: auto;
+  }
 }
 
 .project-resource-link {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.7rem 1.65rem;
+  min-width: 11rem;
+  justify-content: center;
+  justify-self: center;
+  padding: 0.72rem 1.35rem;
   border-radius: 999px;
   background: #ffffff;
   border: 1px solid rgba(15, 23, 42, 0.12);
@@ -213,6 +415,7 @@ body {
   color: #111;
   text-decoration: none;
   letter-spacing: 0.01em;
+  white-space: nowrap;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -224,6 +427,12 @@ body {
 .project-resource-link img {
   width: 2rem;
   height: 2rem;
+}
+
+.project-resource-link img.iclr-logo {
+  width: 4.5rem;
+  height: auto;
+  max-height: 2rem;
 }
 
 /* Logo */
