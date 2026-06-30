@@ -16,6 +16,20 @@ body {
   margin-bottom: 5px;
 }
 
+.link-block .resource-link-disabled {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.resource-link-disabled {
+  background: #6b7280 !important;
+  border-color: #6b7280 !important;
+  color: #e5e7eb !important;
+  cursor: not-allowed;
+  opacity: 0.72;
+  pointer-events: none;
+}
+
 .publication-links .icon .iclr-logo {
   width: 2.75rem;
   height: auto;
@@ -422,6 +436,25 @@ body {
 .project-resource-link:hover {
   transform: translateY(-3px);
   box-shadow: 0 16px 36px rgba(15, 23, 42, 0.2);
+}
+
+.project-resource-link-disabled {
+  background: #f3f4f6;
+  border-color: rgba(107, 114, 128, 0.35);
+  box-shadow: none;
+  color: #6b7280;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.project-resource-link-disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.project-resource-link-disabled img {
+  opacity: 0.55;
+  filter: grayscale(1);
 }
 
 .project-resource-link img {
