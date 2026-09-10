@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="CRISP: Contact-guided Real2Sim from Monocular Video with Planar Scene Primitives" name="description"/>
+<meta name="description" content="CRISP reconstructs simulation-ready human motion and static scene geometry from monocular RGB video using planar primitives and human-scene contacts.">
 <meta content="Human Scene Interaction, 4D Human Motion Reconstruction, Physics-Based Simulation for Control" name="keywords"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>
-   CRISP: Contact-guided Real2Sim from Monocular Video with Planar Scene Primitives
-  </title>
+<title>CRISP: Contact-guided Real2Sim from Monocular Video with Planar Scene Primitives</title>
 <link href="./static/crisp.svg" rel="icon" type="image/png"/>
 <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet"/>
 <link href="./static/css/bulma.min.css" rel="stylesheet"/>
@@ -90,6 +88,17 @@
     padding: 0.35rem 1.25rem;
   }
   </style>
+<meta name="citation_title" content="Contact-guided Real2Sim from Monocular Video with Planar Scene Primitives">
+<meta name="citation_author" content="Zihan Wang">
+<meta name="citation_author" content="Jiashun Wang">
+<meta name="citation_author" content="Jeff Tan">
+<meta name="citation_author" content="Yiwen Zhao">
+<meta name="citation_author" content="Jessica Hodgins">
+<meta name="citation_author" content="Shubham Tulsiani">
+<meta name="citation_author" content="Deva Ramanan">
+<meta name="citation_publication_date" content="2026">
+<meta name="citation_conference_title" content="International Conference on Learning Representations">
+<link rel="canonical" href="https://crisp-real2sim.github.io/CRISP-Real2Sim/">
 </head>
 <body onload="onLoadFunction();">
 <section class="hero is-link is-fullheight video" style="overflow: hidden; position:relative;">
@@ -256,7 +265,7 @@
 <a href="https://tsukasane.github.io/">Yiwen Zhao</a>
        </div>
 <div class="project-author-row">
-<a href="https://www.cs.cmu.edu/~jkh/">Jessica K. Hodgins</a>
+<a href="https://www.cs.cmu.edu/~jkh/">Jessica Hodgins</a>
 <a href="https://shubhtuls.github.io/">Shubham Tulsiani</a>
 <a href="https://www.cs.cmu.edu/~deva/">Deva Ramanan</a>
        </div>
@@ -319,6 +328,12 @@
 <div class="project-venue">
         International Conference on Learning Representations (ICLR 2026)
        </div>
+<section class="project-summary" aria-labelledby="project-summary-heading">
+  <h2 id="project-summary-heading" class="project-summary-heading">Overview</h2>
+  <p>
+    <strong>CRISP reconstructs simulation-ready human motion and scene geometry from monocular RGB video.</strong> It fits planar scene primitives and uses human&ndash;scene contacts to recover occluded geometry, enabling physics-based humanoid motion tracking with reinforcement learning. In the <a href="https://arxiv.org/html/2512.14696v3#S4.T1">paper's EMDB/PROX evaluations</a>, CRISP reduces motion-tracking failure rates from <strong>55.2% to 6.9%</strong> and improves RL simulation throughput by <strong>43%</strong>.
+  </p>
+</section>
 <div class="notification is-info has-text-centered has-text-weight-semibold is-size-4 is-size-5-mobile" style="margin-bottom: 1rem;">
   Dynamic motion with physics powered by Viser — equivalent to IssacGym simulation output.
 </div>
@@ -1413,13 +1428,21 @@
 </div>
 </div>
 </section>
+<section class="section is-small" id="abstract" aria-labelledby="abstract-title">
+  <div class="container is-max-desktop">
+    <h2 class="title is-1 has-text-centered is-size-3-mobile" id="abstract-title">Abstract</h2>
+    <div class="content has-text-left" style="font-size: 1rem; line-height: 1.75;">
+      <p>We introduce CRISP, a method that recovers simulatable human motion and scene geometry from monocular video. Prior work on joint human-scene reconstruction relies on data-driven priors and joint optimization with no physics in the loop, or recovers noisy geometry with artifacts that cause motion tracking policies with scene interactions to fail. In contrast, our key insight is to recover convex, clean, and simulation-ready geometry by fitting planar primitives to a point cloud reconstruction of the scene, via a simple clustering pipeline over depth, normals, and flow. To reconstruct scene geometry that might be occluded during interactions, we make use of human-scene contact modeling (e.g., we use human posture to reconstruct the occluded seat of a chair).
+Finally, we ensure that human and scene reconstructions are physically-plausible by using them to drive a humanoid controller via reinforcement learning. Our approach reduces motion tracking failure rates from 55.2% to 6.9% on human-centric video benchmarks (EMDB, PROX), while delivering a 43% faster RL simulation throughput. We further validate it on in-the-wild videos including casually-captured videos, Internet videos, and even Sora-generated videos. This demonstrates CRISP’s ability to generate physically-valid human motion and interaction environments at scale, greatly advancing real-to-sim applications for robotics and AR/VR. Code and interactive demos are available at our project website: <a href="https://crisp-real2sim.github.io/CRISP-Real2Sim/">crisp-real2sim.github.io/CRISP-Real2Sim</a>.</p>
+    </div>
+  </div>
+</section>
 <section class="section is-small" id="method-overview">
   <div class="container is-max-desktop">
     <div class="content has-text-centered">
       <h2 class="title is-1 is-size-3-mobile">Method</h2>
-      <p class="is-size-5 is-size-6-mobile">
-        CRISP reconstructs physics-ready motion and scene primitives from monocular video, then grounds a contact-aware policy
-        for simulation and downstream control. 
+      <p class="is-size-6 has-text-grey">
+        On EMDB/PROX, CRISP’s contact-guided planar reconstruction reduces motion-tracking failures from 55.2% to 6.9% compared with VideoMimic under the same RL tracking protocol (<a href="https://arxiv.org/html/2512.14696v3#S4.T1">Table 1</a>).
       </p>
     </div>
     <div class="method-figures" role="group" aria-label="CRISP method figures">
@@ -1453,15 +1476,16 @@
       <p class="is-size-5 is-size-6-mobile">
         If you find our repository useful, please consider giving it a star ⭐ and citing our paper in your work:
       </p>
-      <pre style="display: inline-block; text-align: left;">
-<code>@inproceedings{
-wang2026contactguided,
-title={Contact-guided Real2Sim from Monocular Video with Planar Scene Primitives},
-author={Zihan Wang and Jiashun Wang and Jeff Tan and Yiwen Zhao and Jessica K. Hodgins and Shubham Tulsiani and Deva Ramanan},
-booktitle={The Fourteenth International Conference on Learning Representations},
-year={2026},
-url={https://openreview.net/forum?id=xlr3NqxUqY}
+      <pre style="display: inline-block; max-width: 100%; overflow-x: auto; text-align: left;">
+<code>@inproceedings{wang2026contact,
+  title={Contact-guided real2sim from monocular video with planar scene primitives},
+  author={Wang, Zihan and Wang, Jiashun and Tan, Jeff and Zhao, Yiwen and Hodgins, Jessica and Tulsiani, Shubham and Ramanan, Deva},
+  booktitle={International Conference on Learning Representations},
+  volume={2026},
+  pages={115452--115468},
+  year={2026}
 }</code></pre>
+      <p><a href="citation.bib" download>Download BibTeX</a></p>
     </div>
   </div>
 </section>

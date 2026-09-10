@@ -320,7 +320,55 @@ body {
   white-space: nowrap;
 }
 
+.project-summary {
+  margin: 1.5rem auto 2rem;
+  padding: 1.35rem 1.75rem 1.5rem;
+  border: 1px solid #dce8ed;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #f3f8fa, #fafcfd);
+  color: #4b5967;
+  font-size: 1rem;
+  line-height: 1.8;
+  text-align: left;
+}
+
+.project-summary-heading {
+  margin: 0 0 0.65rem;
+  color: #49798a;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.project-summary p {
+  margin: 0;
+}
+
+.project-summary strong {
+  color: #263d4a;
+  font-weight: 600;
+}
+
+.project-summary a {
+  color: #327a98;
+  text-decoration: underline;
+  text-decoration-color: #b9d3dd;
+  text-underline-offset: 3px;
+}
+
+.project-summary a:hover {
+  color: #205a72;
+  text-decoration-color: currentColor;
+}
+
 @media screen and (max-width: 768px) {
+  .project-summary {
+    padding: 1.1rem 1.2rem 1.25rem;
+  }
+
   .project-author-list {
     font-size: 1.05rem;
   }
